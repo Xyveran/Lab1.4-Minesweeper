@@ -7,7 +7,7 @@ wxEND_EVENT_TABLE()
 
 cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Ortiz - Minesweeper", wxPoint(30,30), wxSize(800,600))
 {
-	btn = new wxButton * [nFieldWidth * nFieldHeight];
+	mineTile = new wxButton * [nFieldWidth * nFieldHeight];
 	wxGridSizer* grid = new wxGridSizer(nFieldWidth, nFieldHeight, 0, 0);
 	
 	nField = new int[nFieldWidth * nFieldHeight];
@@ -18,11 +18,11 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Ortiz - Minesweeper", wxPoint(30,30
 	{
 		for (int y = 0; y < nFieldHeight; y++)
 		{
-			btn[y * nFieldWidth + x] = new wxButton(this, 10000 + (y * nFieldWidth + x));
-			btn[y * nFieldWidth + x]->SetFont(font);
-			grid->Add(btn[y * nFieldWidth + x], 1, wxEXPAND | wxALL);
+			mineTile[y * nFieldWidth + x] = new wxButton(this, 10000 + (y * nFieldWidth + x));
+			mineTile[y * nFieldWidth + x]->SetFont(font);
+			grid->Add(mineTile[y * nFieldWidth + x], 1, wxEXPAND | wxALL);
 
-			btn[y * nFieldWidth + x]->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &cMain::OnButtonClicked, this);
+			mineTile[y * nFieldWidth + x]->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &cMain::OnButtonClicked, this);
 			nField[y * nFieldWidth + x] = 0;
 		}
 	}
@@ -33,7 +33,7 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Ortiz - Minesweeper", wxPoint(30,30
 
 cMain::~cMain()
 {
-	delete[] btn;
+	delete[] mineTile;
 }
 
 void cMain::OnButtonClicked(wxCommandEvent& evt)
@@ -59,7 +59,7 @@ void cMain::OnButtonClicked(wxCommandEvent& evt)
 		bFirstClick = false;
 	}
 
-	btn[y * nFieldWidth + x]->Enable(false);
+	mineTile[y * nFieldWidth + x]->Enable(false);
 
 	if (nField[y * nFieldWidth + x] == -1)
 	{
@@ -71,14 +71,14 @@ void cMain::OnButtonClicked(wxCommandEvent& evt)
 			for (int y = 0; y < nFieldHeight; y++)
 			{
 				nField[y * nFieldWidth + x] = 0;
-				btn[y * nFieldWidth + x]->SetLabel("");
-				btn[y * nFieldWidth + x]->Enable(true);
+				mineTile[y * nFieldWidth + x]->SetLabel("");
+				mineTile[y * nFieldWidth + x]->Enable(true);
 			}
 		}
 	}
 	else
 	{
-		int mine_count = 0;
+		int mineNum = 0;
 		for (int i = -1; i < 2; i++)
 		{
 			for (int j = -1; j < 2; j++)
@@ -86,14 +86,14 @@ void cMain::OnButtonClicked(wxCommandEvent& evt)
 				if (x + i >= 0 && x + i < nFieldWidth && y + j >= 0 && y + j < nFieldHeight)
 				{
 					if (nField[(y + j) * nFieldWidth + (x + i)] == -1)
-						mine_count++;
+						mineNum++;
 				}
 			}
 		}
 
-		if (mine_count > 0)
+		if (mineNum > 0)
 		{
-			btn[y * nFieldWidth + x]->SetLabel(std::to_string(mine_count));
+			mineTile[y * nFieldWidth + x]->SetLabel(std::to_string(mineNum));
 		}
 	}
 

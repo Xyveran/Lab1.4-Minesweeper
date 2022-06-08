@@ -10,7 +10,7 @@ public:
 public:
 	int nFieldWidth = 10;
 	int nFieldHeight = 10;
-	wxButton** btn;
+	wxButton** mineTile;
 
 	int* nField = nullptr;
 	bool bFirstClick = true;

@@ -10,7 +10,7 @@ public:
 	~cApp();
 
 private:
-	cMain* m_frame1 = nullptr;
+	cMain* SweeperFrame = nullptr;
 
 public:
 	virtual bool OnInit();

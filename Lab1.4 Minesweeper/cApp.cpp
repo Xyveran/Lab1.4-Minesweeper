@@ -14,8 +14,8 @@ cApp::~cApp()
 
 bool cApp::OnInit()
 {
-	m_frame1 = new cMain();
-	m_frame1->Show();
+	SweeperFrame = new cMain();
+	SweeperFrame->Show();
 
 	return true;
 }
